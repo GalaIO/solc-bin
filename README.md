@@ -1,5 +1,5 @@
 # solc-bin
-The project mainly concern compile solc in aarch64 machine. for amd64/x86 binaries please ref [solc-bin](https://github.com/ethereum/solc-bin/).
+The project mainly concern compile solc in aarch64 machine. for amd64/x86 binaries please ref [solc-bin](https://github.com/ethereum/solc-bin/). or you can use [solc-select](https://github.com/crytic/solc-select) to control solc version. 
 
 ## how to install
 
@@ -31,15 +31,15 @@ docker run -it -v ~/build:/home/build solc-bin-build /bin/bash
 
 # now, you are in container runtime
 cd home/build/
-git clone --recursive https://github.com/ethereum/solidity.git
-cd solidity
 # you could replace the target version, you want to compile
-git checkout v0.6.4
+wget https://github.com/ethereum/solidity/releases/download/v0.6.4/solidity_0.6.4.tar.gz
+tar xvf solidity_0.6.4.tar.gz
+cd solidity_0.6.4
 mkdir build
 cd build
 cmake .. && make
 exit
-# you will see the solc binary in ~/build/solidity/build/solc/solc
+# you will see the solc binary in ~/build/solidity_0.6.4/build/solc/solc
 ```
 
 That's all.
@@ -70,3 +70,13 @@ just add `using std::size_t;` declare, in `solidity/tools/yulPhaser/Selections.h
 ### when you find lost some `GLIBCXX_3.4.26` or `GLIBC_2.34` when run?
 
 you should downgrade your docker image base, recommend you to use `buildpack-deps:bionic`.
+
+### when you run solc got `that nightly builds are considered to be strictly less than the released version`
+
+that is a limit by build from source, please ref [Why are nightly builds considered to be less than the released version?](https://github.com/ethereum/solidity/issues/4170).
+
+you should download the target release from [this page](https://github.com/ethereum/solidity/releases).
+
+## ref
+
+[Dockerfile.ubuntu2004.clang](https://github.com/ethereum/solidity/blob/develop/scripts/docker/buildpack-deps/Dockerfile.ubuntu2004.clang)
